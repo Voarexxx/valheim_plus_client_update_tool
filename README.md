@@ -10,6 +10,38 @@ Because Valhiem Plus does not update the windows client automagically I will sum
 
 ### Prerequisites <a name="prereq"></a>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Download the Valhiem Plus Client Tool via your favorite method from this repository.
 
 *Git must be installed and some familiarity with git may be required*
