@@ -1,4 +1,4 @@
-﻿# Download latest dotnet/codeformatter release from github
+# Download latest dotnet/codeformatter release from github
 write-host "`n"
 write-host "`n"
 write-host "`n"
@@ -202,13 +202,35 @@ function Add-Object-ValhiemFiles {
             $destFileName = Join-Path $destination $file
             if (Test-Path -Path $zipFileName -PathType Leaf) {
                 if (-not(Test-Path -Path $destFileName -PathType Leaf)) {
-                    try {
-                        Write-Verbose -Message "file $zipFileName was moved to destination $destFileName"
-                        Move-Item "$zipFileName" -Destination $destFileName -force
-                        Write-Output "file $zipFileName was moved to destination $destFileName"
+                    if (Test-Path -Path (Split-Path -Parent $destFileName) -PathType Container) {
+                        try {
+                            Write-Verbose -Message "file $zipFileName was moved to destination $destFileName"
+                            Move-Item "$zipFileName" -Destination $destFileName -force
+                            Write-Output "file $zipFileName was moved to destination $destFileName"
+                        }
+                        catch {
+                            throw $_.ExceptionMessage
+                        }
                     }
-                    catch {
-                        throw $_.ExceptionMessage
+                    else {
+                        
+                        $i = 5
+                        DO {
+                            Write-Host ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                            $i = $i - 1
+                        } while ( $i -gt 0)
+
+                        try {
+                            Write-Host Creating Missing Parent Directories for (Split-Path -Parent $destFileName)
+                            mkdir (Split-Path -Parent $destFileName)
+                            Write-Verbose -Message "file $zipFileName was moved to destination $destFileName"
+                            Move-Item "$zipFileName" -Destination $destFileName -force
+                            Write-Output "file $zipFileName was moved to destination $destFileName"
+                        }
+                        catch {
+                            throw $_.ExceptionMessage
+                        }
+                    
                     }
                 }
                 else {
@@ -240,6 +262,19 @@ Add-Object-ValhiemFiles -FileNames $doorstopLibsFiles
 Add-Object-ValhiemFiles -FileNames $bepinexCoreFiles
 Add-Object-ValhiemFiles -FileNames $unstrippedCorelibFiles
 
+$patchers = Join-Path $destination '\BepInEx\patchers'
+
+if (-not(Test-Path -Path $patchers -PathType Container)) {
+    try {
+        Write-Host "Creating directory $patchers because it does not exist in the destination $destination"
+        mkdir $patchers
+    }
+    catch {
+        throw $_.ExceptionMessage
+    }
+}
+
+
 Write-Host Valheim Plus $tag files were SUCCESSFULLY copied to $destination
 
 Write-Host Cleanup Temporary zip and extract folders
@@ -249,33 +284,28 @@ Write-Host zip $zip was removed
 Remove-Item $zipDir -Recurse -Force
 Write-Host folder $zipDir was removed
 write-host "`n"
-Write-Host Wow what a gaping hole of Glory. Odin is shook.
+Write-Host Go have yourself an adventure Viking!
 write-host "`n"
-Write-Host "* G L O R Y * G L O R Y * G L O R Y * G L O R Y *
-G                                               G
-L /     \             \            /    \       L
-O|       |             \          |      |      O
-R|       `.             |         |       :      R
-Y`        |             |        \|       |      Y
-* \       | /       /  \\\   --__ \\       :    *
-G  \      \/   _--~~          ~--__| \     |    G
-L   \      \_-~                    ~-_\    |    L
-O    \_     \        _.--------.______\|   |    O
-R      \     \______// _ ___ _ (_(__>  \   |    R
-Y       \   .  C ___)  ______ (_(____>  |  /    Y
-*       /\ |   C ____)/      \ (_____>  |_/     *
-G      / /\|   C_____)       |  (___>   /  \    G
-L     |   (   _C_____)\______/  // _/ /     \   L
-O     |    \  |__   \\_________// (__/       |  O
-R    | \    \____)   `----   --'              |  R
-Y    |  \_          ___\       /_          _/ | Y
-*   |              /    |     |  \            | *
-G   |             |    /       \  \           | G
-L   |          / /    |         |  \           |L
-O   |         / /      \__/\___/    |          |O
-R  |           /        |    |       |         |R
-Y  |          |         |    |       |         |Y
-* G L O R Y * G L O R Y * G L O R Y * G L O R Y *
-════════════════════════════════════════════════════════════════════════════════════════════════════════════"
+Write-Host @"
+                      |----.___
+                                |----.___',
+              ._________________|_______________.
+              |####|    |####|    |####|   |####|
+              |####|    |####|    |####|    |####|       .
+              |####|    |####|    |####|    |####|     /|_____.
+  __          |####|    |####|    |####|    |####|   |  o  ..|
+(  '.         '####|    '####|    '####|    '####|   '.  .vvv'
+ '@ |          |####.    |####.    |####.    |####|    ||
+  | |          '####.    '####.    '####.    '####.    ||
+ /  |         /####.    /####.    /####.    /####.     |'.
+|    |       '####/    '####/    '####/    '####/      |  |
+|     |  .  /####|____/####|____/####|____/####|      |    |
+|      |//   .#'#. .*'*. .#'#. .*'*. .#'#. .*'*.     |      |
+ |     //-...#'#'#-*'*'*-#'#'#-*'*'*-#'#'#-*'*'*-...'        |
+  |   //     '#'#' '*'*' '#'#' '*'*' '#'#' '*'*'             |
+   './/                                                     .'
+   _//'._                                                _.'
+  /  /   '----------------------------------------------'
+"@
 
-Start-Sleep -s 10
+Start-Sleep -s 5
