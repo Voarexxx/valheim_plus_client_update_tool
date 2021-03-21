@@ -10,42 +10,13 @@ Because Valhiem Plus does not update the windows client automagically I will sum
 
 ### Prerequisites <a name="prereq"></a>
 
+* Download the Valhiem Plus Client Tool via your favorite method from this repository.
+* Git
+* Windows
+* Valheim
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Download the Valhiem Plus Client Tool via your favorite method from this repository.
-
-*Git must be installed and some familiarity with git may be required*
-
+*Git must be installed and some familiarity with git is required*
+ 
 ### Using Git <a name="git"></a>
 
 #### Change into directory you would like to download the files to <a name="cd"></a>
