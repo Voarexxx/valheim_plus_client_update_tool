@@ -8,7 +8,7 @@ Because Valhiem Plus does not update the windows client automagically I will sum
 Download the Valhiem Plus Client Tool via your favorite method from this repository.
 
 ```code powershell
-.\update_valheim_plus.ps1
+$ .\update_valheim_plus.ps1
 ```
 
 ### Notes
