@@ -16,7 +16,7 @@ Download the Valhiem Plus Client Tool via your favorite method from this reposit
 
 ### Using Git <a name="git"></a>
 
-#### Change into directory you would like to download the files <a name="cd"></a>
+#### Change into directory you would like to download the files to <a name="cd"></a>
 
 ```shell 
 $ cd ~\Documents
