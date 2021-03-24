@@ -277,6 +277,8 @@ if (-not(Test-Path -Path $patchers -PathType Container)) {
 
 Write-Host Valheim Plus $tag files were SUCCESSFULLY copied to $destination
 
+Start-Sleep -s 5
+
 Write-Host Cleanup Temporary zip and extract folders
 # Removing temp files
 Remove-Item $zip -Force
