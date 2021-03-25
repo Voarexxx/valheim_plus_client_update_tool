@@ -18,7 +18,27 @@ _________ .__  .__               __     ____ ___            .___       __       
 "
 
 # Change line 4 to the steam path of Valheim. Likely you will not need to change this value if Valheim is saved
-$destination = "C:\Program Files (x86)\Steam\steamapps\common\Valheim\"
+
+Function Get-Folder($initialDirectory="C:\Program Files (x86)\Steam\steamapps\common\Valheim\")
+
+{
+    [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")|Out-Null
+
+    $foldername = New-Object System.Windows.Forms.FolderBrowserDialog
+    $foldername.Description = "Select the destination you would like to update Valheim Plus"
+    $foldername.rootfolder = "MyComputer"
+    $foldername.SelectedPath = $initialDirectory
+
+    if($foldername.ShowDialog() -eq "OK")
+    {
+        $folder += $foldername.SelectedPath
+    }
+    return $folder
+}
+
+$destination = Get-Folder
+
+#$destination = "C:\Program Files (x86)\Steam\steamapps\common\Valheim\"
 $repo = "valheimPlus/ValheimPlus"
 $file = "WindowsClient.zip"
 
@@ -227,6 +247,7 @@ function Add-Object-ValhiemFiles {
                             Write-Verbose -Message "file $zipFileName was moved to destination $destFileName"
                             Move-Item "$zipFileName" -Destination $destFileName -force
                             Write-Output "file $zipFileName was moved to destination $destFileName"
+                            Write-Host Valheim Plus $tag files were SUCCESSFULLY copied to $destination
                         }
                         catch {
                             throw $_.ExceptionMessage
@@ -276,11 +297,6 @@ if (-not(Test-Path -Path $patchers -PathType Container)) {
 }
 
 
-Write-Host Valheim Plus $tag files were SUCCESSFULLY copied to $destination
-
-Write-Host Please review files briefly to notice any errors you have 10 seconds remaining. 
-Start-Sleep -s 5
-
 Write-Host Cleanup Temporary zip and extract folders
 # Removing temp files
 Remove-Item $zip -Force
@@ -312,4 +328,4 @@ Write-Host @"
   /  /   '----------------------------------------------'
 "@
 
-Start-Sleep -s 5
+Start-Sleep -s 15
